@@ -1,0 +1,20 @@
+CRITICAL SECURITY FINDINGS - SEGWISE DASHBOARD
+==================================================
+
+🚨 CRITICAL: 17 JavaScript errors found
+   └─ https://ua.segwise.ai/_next/static/chunks/pages/_app-075a42bdf4c4be2e.js 26 Refused to create a work...
+   └─ https://ua.segwise.ai/_next/static/chunks/pages/_app-075a42bdf4c4be2e.js 22:3662 "Do not use scan di...
+   └─ https://ua.segwise.ai/api/auth/userinfo - Failed to load resource: the server responded with a statu...
+⚡ PERFORMANCE: 7 performance issues found
+🚨 CRITICAL AUTH BYPASS: Unauthorized access to https://ua.segwise.ai/qa_assignment/admin
+   └─ Found sensitive data: admin
+🚨 CRITICAL AUTH BYPASS: Unauthorized access to https://ua.segwise.ai/admin
+   └─ Found sensitive data: config
+
+Total Issues: 9
+Test Date: 2025-07-09 00:24:44
+
+
+ADVANCED BUSINESS LOGIC & SECURITY FINDINGS
+==================================================
+🚨 CRITICAL: Unauthorized access to admin functionality at https://ua.segwise.ai/admin
