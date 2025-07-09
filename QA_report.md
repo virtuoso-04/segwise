@@ -1,214 +1,141 @@
-# Segwise QA Report
+# Segwise QA Assignment Report
 
-**Anant Sharma**  
+**Candidate**: Anant Sharma  
+**Role Applied**: QA Intern  
 **Date**: July 9, 2025
 
-## Found Bugs and Issues
+---
 
-### 🐞 Bug 1: Custom Chart Row Selection Limit Not Communicated
-**Severity**: Medium  
-**Description**: When selecting custom rows for charting, the interface allows multiple selections but silently restricts charting to only 10 rows without clear communication to the user.
+##  1. Functional Testing – Observed Issues
 
-**Steps to Reproduce**:
-1. Log in at https://ua.segwise.ai
-2. Open any saved report 
-3. Toggle "Show Chart" to "Custom"
-4. Select more than 10 rows from the table
-
-**Expected**: UI should prevent selecting more than 10 rows OR display clear warning  
-**Actual**: User can select more rows but chart doesn't reflect all selections
-
-**Screenshot**: ![Custom Chart Limit Bug](./screenshots/custom_row_limit.png)
+###  Test URL: [https://ua.segwise.ai](https://ua.segwise.ai)  
+**Test Credentials**: qa@segwise.ai / segwise_test
 
 ---
 
-### 🐞 Bug 2: Poor Mobile Responsiveness
-**Severity**: Medium  
-**Description**: Dashboard lacks proper mobile navigation and responsive design elements.
-
-**Steps to Reproduce**:
-1. Access dashboard on mobile device or resize browser to 768px width
-2. Observe navigation and layout behavior
-
-**Expected**: Responsive navigation with hamburger menu, adaptive layout  
-**Actual**: No mobile navigation elements, layout breaks on smaller screens
+### Bug 1: Custom Chart Selection Limit Not Communicated
+- **Severity**: Medium  
+- The interface allows selecting more than 10 rows for a chart but silently limits rendering to 10, with no warning.  
+- **Expected**: Limit row selection to 10 or display a visible warning.  
+- **Actual**: User can select more than 10 rows; chart shows “No data found.”
 
 ---
 
-### 🐞 Bug 3: Missing Interactive Chart Tooltips
-**Severity**: Medium  
-**Description**: Chart elements lack hover tooltips, making it difficult to get precise data values.
-
-**Steps to Reproduce**:
-1. Navigate to dashboard with charts
-2. Hover over chart elements (bars, data points)
-3. Observe lack of tooltip information
-
-**Expected**: Hover tooltips showing exact values, labels, percentages  
-**Actual**: No tooltips appear, poor chart interactivity
+### Bug  2: Missing Mobile Navigation
+- **Severity**: Medium  
+- On smaller screens, navigation elements do not adapt. No hamburger menu or responsive sidebar is visible.  
+- **Expected**: Responsive layout with collapsible menu.  
+- **Actual**: Layout breaks, and navigation becomes inaccessible.
 
 ---
 
-### 🐞 Bug 4: Authentication Bypass Vulnerability
-**Severity**: CRITICAL  
-**Description**: Application allows unauthorized access to admin functionality through direct URL manipulation.
-
-**Steps to Reproduce**:
-1. Log in with standard test credentials (qa@segwise.ai)
-2. Navigate directly to https://ua.segwise.ai/admin
-3. Observe unauthorized access to admin areas
-
-**Expected**: Redirect to login or access denied error  
-**Actual**: Direct access granted to admin configuration areas
-
-**Impact**: Major security risk - immediate patch required
+### Bug 3: No Chart Tooltips
+- **Severity**: Low-Medium  
+- Hovering over chart elements shows no tooltips, limiting interpretability.  
+- **Expected**: On-hover values, labels, or breakdowns.  
+- **Actual**: Static charts without interactive feedback.
 
 ---
 
-### 🐞 Bug 5: Production JavaScript Errors
-**Severity**: High  
-**Description**: Multiple JavaScript errors in production environment affecting stability.
-
-**Steps to Reproduce**:
-1. Open browser developer console
-2. Navigate to dashboard
-3. Observe JavaScript errors including failed API calls
-
-**Expected**: Clean console with no errors  
-**Actual**: 17+ JavaScript errors including authentication API failures
+### bug 4: Visible Error Message – Onboarding Route
+- **Severity**: High  
+- Debug-like error `/james_enter/onboarding?...` is visible in UI.  
+- **Expected**: Clean UI with no internal error/debug output.  
+- **Actual**: Error appears intermittently.
 
 ---
 
-## Suggested Test Cases
+### bug 5: Report Navigation Not Intuitive
+- **Severity**: Medium  
+- No clear menu or UI section leads to saved reports.  
+- **Expected**: Prominent reports section in navigation.  
+- **Actual**: Reports are hidden; difficult to locate or revisit saved reports.
 
-### Functional Test Cases
-1. **Login Functionality**
-   - Valid credentials login
-   - Invalid credentials handling
-   - Session timeout behavior
+---
 
-2. **Dashboard Navigation**
-   - Page loading performance
-   - Menu navigation functionality
-   - Breadcrumb navigation
+##  2. Regression Checklist (Dashboard)
 
-3. **Chart Functionality**
-   - Chart display and rendering
-   - Interactive tooltip behavior
-   - Data filtering and customization
-   - Export functionality
+| Component              | Check                                  | Status   | Notes                              |
+|------------------------|-----------------------------------------|----------|------------------------------------|
+| Login                  | Valid credentials                      | ✅ Pass   | Login works as expected            |
+| Dashboard Load         | Main dashboard loads completely         | ✅ Pass   | Loads with all visible components |
+| Chart Rendering        | Default chart visible and loads         | ⚠️ Partial | Missing tooltips                   |
+| Custom Chart Limit     | Max 10 rows selected                    | ❌ Fail   | No user warning shown              |
+| Mobile Responsiveness  | Sidebar & content adapt to screen size  | ❌ Fail   | No mobile-friendly navigation      |
+| Error Handling         | No debug output visible                 | ❌ Fail   | Onboarding error observed          |
+| Report Discovery       | Easy access to saved reports            | ❌ Fail   | Navigation unclear                 |
+| Logout Functionality   | User able to log out                    | ✅ Pass   | Button redirects to login screen  |
 
-4. **Mobile Responsiveness**
-   - Layout adaptation on different screen sizes
-   - Touch target accessibility (minimum 44px)
-   - Mobile navigation usability
+---
 
-5. **Data Management**
-   - Search functionality
-   - Data export capabilities
-   - Report generation and sharing
+##  Suggested Test Cases
 
-### Security Test Cases
-1. **Authentication Testing**
-   - Role-based access control
-   - Session management
-   - Password security
+### Functional
+- Login/logout flow
+- Chart visibility and rendering
+- Row selection with limits
+- Data filters and saved reports
+- Export or copy report actions (if available)
 
-2. **Authorization Testing**
-   - Admin panel access restrictions
-   - URL manipulation protection
-   - Privilege escalation prevention
+### UI/UX
+- no clarity of dashboard
+- Hover tooltips on charts
+- Mobile-friendly layouts
+- Element responsiveness
+- Button accessibility
 
-### Accessibility Test Cases
-1. **WCAG Compliance**
-   - Screen reader compatibility
-   - Keyboard navigation
-   - Color contrast ratios
-   - Alternative text for images
+### Security (Basic)
+- Prevent unauthorized URL access
+- Block access to admin-only areas
+- Handle broken API responses gracefully
 
-## Regression Checklist
+---
 
-| Test Case | Priority | Status | Notes |
-|-----------|----------|--------|-------|
-| **Core Functionality** |
-| User login with valid credentials | High | ✅ Pass | Login working correctly |
-| Dashboard page loading | High | ✅ Pass | Page loads within acceptable time |
-| Chart display and rendering | High | ⚠️ Partial | Charts present but lack tooltips |
-| Basic navigation functionality | High | ✅ Pass | Navigation works |
-| **Security & Access** |
-| Admin access restriction | Critical | ❌ Fail | Unauthorized access possible |
-| User session management | High | ✅ Pass | Sessions handled correctly |
-| **User Experience** |
-| Mobile responsiveness | Medium | ❌ Fail | No mobile navigation |
-| Interactive chart tooltips | Medium | ❌ Fail | No hover tooltips |
-| Search functionality | Medium | ❌ Fail | No search available |
-| **Performance** |
-| Page load times | Medium | ✅ Pass | Acceptable performance |
-| JavaScript error handling | High | ❌ Fail | Multiple console errors |
-| **Accessibility** |
-| Keyboard navigation | Medium | ⚠️ Partial | Basic support present |
-| Screen reader compatibility | Medium | ❌ Fail | Missing ARIA labels |
+##  Recommendations
 
-### Priority Levels:
-- **Critical**: Security vulnerabilities, data loss risks
-- **High**: Core functionality, user-blocking issues  
-- **Medium**: Usability improvements, enhancement features
-- **Low**: Nice-to-have features, minor UI improvements
+1. **Improve UX Clarity**
+   - add a dark mode/ light mode toggle switch
+   - Warn users when chart limit is exceeded
+   - Add tooltips to charts for better readability
+   - give a brief walkthrough of the dashboard
 
-## Suggestions to Improve Dashboard Usability
+2. **Mobile Usability**
+   - Add hamburger menu or responsive sidebar
+   - Improve layout adaptation for smaller devices
 
-### Immediate Improvements (High Priority)
-1. **Fix Authentication Security**
-   - Implement proper role-based access control
-   - Add authentication middleware for admin routes
-   - Audit all administrative endpoints
+3. **Interface Cleanup**
+   - Remove or hide internal error messages
+   - Clarify dashboard purpose with helpful tooltips or onboarding content
 
-2. **Add Interactive Chart Features**
-   - Implement hover tooltips with precise data values
-   - Add click interactions for drill-down exploration
-   - Include chart legends and data explanations
+4. **Navigation Enhancements**
+   - Add a visible “Reports” section or menu
+   - Make saved reports easily accessible
 
-3. **Improve Mobile Experience**
-   - Add responsive navigation with hamburger menu
-   - Ensure touch targets meet 44px minimum size
-   - Optimize layout for mobile screens
-
-### User Experience Enhancements
-4. **Add Search Functionality**
-   - Global search across reports and data
-   - Advanced filtering options
-   - Quick access shortcuts (Ctrl+K)
-
-5. **Data Export Capabilities**
-   - CSV/PDF export options
-   - Email sharing functionality
-   - Report generation tools
-
-6. **Dashboard Orientation**
-   - Clear dashboard purpose statement
-   - Getting started guide for new users
-   - Help documentation and tooltips
-
-### Technical Improvements
-7. **Error Handling**
-   - Fix production JavaScript errors
-   - Implement proper error boundaries
-   - Add user-friendly error messages
-
-8. **Performance Optimization**
-   - Address memory leaks
-   - Optimize resource loading
-   - Add loading indicators
-
-9. **Accessibility Compliance**
-   - Add ARIA labels to charts
-   - Improve keyboard navigation
-   - Ensure WCAG 2.1 AA compliance
+---
 
 ## Testing Environment
 
-**Browser**: Chrome (latest)  
-**OS**: macOS Sonoma 14.5  
-**Screen Resolutions**: 1920x1080 (desktop), 375x667 (mobile)  
-**Testing Tools**: Selenium WebDriver, Chrome DevTools  
-**Test Credentials**: qa@segwise.ai / segwise_test
+- **Browser**: Chrome 138, Safari 17.5  
+- **OS**: macOS Sonoma 14.5  
+- **Screen Sizes**: 2560×1600 (desktop), 768×1024 (tablet simulation)  
+- **Tools Used**:  
+  - Manual UI exploration  
+  - Responsive Design Mode  
+  - chrome developer tools (F12)
+  - Selenium WebDriver (see `test_dashboard.py` in repo)
+
+---
+
+##  Summary
+
+This report covers 5 functional issues, a regression checklist, and improvement suggestions aligned with Segwise’s QA assignment. 
+Testing was performed manually and supported by light automation using Selenium for login and dashboard validation. Screenshots and script are included in the GitHub submission.
+
+Thats all the software testing from my side , overall the UI of the website is clean , minimal, Ios inspired design with green accent 
+
+Regards,
+Anant Sharma
+anant.sharma.career@gmail.com
+
+---
+
